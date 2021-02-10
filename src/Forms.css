@@ -1,49 +1,53 @@
-
-.subscription-form{
-    margin: 40px 0;
-    display: flex;
-    flex-direction: column;
-    width: 900px;
-    background-color: #fff;
+.subscription-form {
+  margin: 40px 0;
+  display: flex;
+  flex-direction: column;
+  width: 900px;
+  background-color: #fff;
 }
 
-label{
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    margin-bottom: 40px;
+label {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  margin-bottom: 40px;
 }
 
-.form-row{
-    justify-content: center;
-    display: flex;
-    flex-direction: row;
-    margin: 10px 30px;
+.form-row {
+  justify-content: center;
+  display: flex;
+  flex-direction: row;
+  margin: 10px 30px;
 }
 
 .form-row input[type='text'],
-.form-row input[type='month']{
-    border-radius: 3px;
-    border: 1px solid #D6D9DC;
-    padding: 10px;
-    margin: 2px;
-    flex:1
+.form-row input[type='month'] {
+  border-radius: 3px;
+  border: 1px solid #d6d9dc;
+  padding: 10px;
+  margin: 2px;
+  flex: 1;
 }
 
-.form-row button{
-    width: 150px;
-    font-weight: bold;
-    border: none;  
-    border-radius: 3px;
-    font-size: 16px;
-    color: #ffffff;
-    padding: 6px;
-    background-color: #494b4e;
+.invalid-field,
+.invalid-field:focus {
+  border-color: red !important;
+  outline-color: red;
+}
+
+.form-row button {
+  width: 150px;
+  font-weight: bold;
+  border: none;
+  border-radius: 3px;
+  font-size: 16px;
+  color: #ffffff;
+  padding: 6px;
+  background-color: #494b4e;
 }
 
 @media only screen and (max-width: 720px) {
-    .form-row{
-        flex-direction: column;
-    }
+  .form-row {
+    flex-direction: column;
+  }
 }
-

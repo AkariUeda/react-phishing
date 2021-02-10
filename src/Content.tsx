@@ -2,22 +2,18 @@ import React from 'react';
 import './Content.css';
 import Forms from './Forms';
 import Table from './Table';
-import { UserData, UserList } from './IUserData';
+import { UserData } from './IUserData';
+import { observer } from 'mobx-react';
+import { observable, action } from 'mobx';
 
-class Content extends React.Component<any, UserList> {
-  constructor(props: any) {
-    super(props);
-    this.handleFormSubmit = this.handleFormSubmit.bind(this);
-    this.state = { userList: [] };
-  }
+@observer
+class Content extends React.Component<any, UserData> {
+  public userList: UserData[] = observable([]);
 
-  handleFormSubmit(userData: UserData) {
-    this.state.userList.push(userData);
-    this.setState((state) => ({
-      userList: state.userList
-    }));
-    return 0;
-  }
+  @action
+  handleFormSubmit = (userData: UserData) => {
+    this.userList.push(userData);
+  };
 
   render() {
     return (
@@ -25,7 +21,7 @@ class Content extends React.Component<any, UserList> {
         <h1>Subscribe</h1>
         <Forms handleFormSubmit={this.handleFormSubmit} />
         <h1>Users that have earned the free subscription</h1>
-        <Table userList={this.state.userList} />
+        <Table userList={this.userList} />
       </div>
     );
   }

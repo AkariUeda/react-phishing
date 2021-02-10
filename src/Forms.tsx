@@ -1,54 +1,93 @@
 import './Forms.css';
 import React from 'react';
 import { UserData } from './IUserData';
+import { action, computed, observable } from 'mobx';
+import { observer } from 'mobx-react';
+import { FormValidation } from './FormValidation';
+// Bonus: use validation on inputs
+// Use a @computed get to return a boolean, whether the form is valid (passes all validation checks)
 
+@observer
 class Forms extends React.Component<any, UserData> {
-  constructor(props: any) {
-    super(props);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleNameChange = this.handleNameChange.bind(this);
-    this.handleCVVChange = this.handleCVVChange.bind(this);
-    this.handleCardNumberChange = this.handleCardNumberChange.bind(this);
-    this.handleDateChange = this.handleDateChange.bind(this);
-    this.state = {
-      fullName: '',
-      cardCVV: 0,
-      cardNumber: 0,
-      expDate: '2020-06'
-    };
+  user: UserData = observable({
+    fullName: '',
+    cardCVV: 0,
+    cardNumber: 0,
+    expDate: '06/20'
+  });
+
+  firstButtonClick = observable.box(false);
+  private isFieldValid = (isValueValid: boolean) => {
+    if (!this.firstButtonClick.get() || isValueValid) {
+      return true;
+    }
+    return false;
+  };
+
+  @computed public get isNameValid(): boolean {
+    return FormValidation.validName(this.user.fullName);
   }
 
-  handleNameChange(e: React.FormEvent<HTMLInputElement>) {
+  @computed public get isCvvValid(): boolean {
+    return FormValidation.validCvv(this.user.cardCVV);
+  }
+
+  @computed public get isCardNumberValid(): boolean {
+    return FormValidation.validCardNumber(this.user.cardNumber);
+  }
+
+  @computed public get isDateValid(): boolean {
+    return FormValidation.validDate(this.user.expDate);
+  }
+
+  @computed public get isValid(): boolean {
+    if (
+      FormValidation.validate(
+        this.user.fullName,
+        this.user.cardCVV,
+        this.user.cardNumber,
+        this.user.expDate
+      )
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  // Could also use computeds to validate input fields (outlined as red if invalid)
+  // Use computed value to apply CSS class to input
+
+  @action
+  handleNameChange = (e: React.FormEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
-    this.setState({
-      fullName: value
-    });
-  }
+    this.user.fullName = value;
+  };
 
-  handleCVVChange(e: React.FormEvent<HTMLInputElement>) {
+  @action
+  handleCVVChange = (e: React.FormEvent<HTMLInputElement>) => {
     const value = parseInt(e.currentTarget.value);
-    this.setState({
-      cardCVV: value
-    });
-  }
+    this.user.cardCVV = value;
+  };
 
-  handleCardNumberChange(e: React.FormEvent<HTMLInputElement>) {
+  @action
+  handleCardNumberChange = (e: React.FormEvent<HTMLInputElement>) => {
     const value = parseInt(e.currentTarget.value);
-    this.setState({
-      cardNumber: value
-    });
-  }
+    this.user.cardNumber = value;
+  };
 
-  handleDateChange(e: React.FormEvent<HTMLInputElement>) {
+  @action
+  handleDateChange = (e: React.FormEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
-    this.setState({
-      expDate: value
-    });
-  }
+    this.user.expDate = value;
+  };
 
-  handleSubmit() {
-    this.props.handleFormSubmit(this.state);
-  }
+  @action
+  handleSubmit = () => {
+    this.firstButtonClick.set(true);
+    if (this.isValid) {
+      this.props.handleFormSubmit(this.user);
+    }
+  };
 
   render() {
     return (
@@ -59,6 +98,9 @@ class Forms extends React.Component<any, UserData> {
               Full Name
               <input
                 id="full-name"
+                className={
+                  this.isFieldValid(this.isNameValid) ? '' : 'invalid-field'
+                }
                 type="text"
                 name="fullName"
                 onChange={this.handleNameChange}
@@ -68,6 +110,9 @@ class Forms extends React.Component<any, UserData> {
               Card CVV
               <input
                 id="card-cvv"
+                className={
+                  this.isFieldValid(this.isCvvValid) ? '' : 'invalid-field'
+                }
                 type="text"
                 name="cardCVV"
                 maxLength={3}
@@ -80,6 +125,11 @@ class Forms extends React.Component<any, UserData> {
               Credit Card Number
               <input
                 id="card-number"
+                className={
+                  this.isFieldValid(this.isCardNumberValid)
+                    ? ''
+                    : 'invalid-field'
+                }
                 type="text"
                 name="cardNumber"
                 maxLength={16}
@@ -92,8 +142,12 @@ class Forms extends React.Component<any, UserData> {
               Card Expiration Date
               <input
                 id="card-expiration"
-                type="month"
-                value="2020-06"
+                className={
+                  this.isFieldValid(this.isDateValid) ? '' : 'invalid-field'
+                }
+                type="text"
+                maxLength={5}
+                value={this.user.expDate}
                 name="expDate"
                 onChange={this.handleDateChange}
               />
@@ -105,7 +159,7 @@ class Forms extends React.Component<any, UserData> {
               className="submitButton"
               onClick={this.handleSubmit}
             >
-              Get Free Subscription!
+              Get free subscription!
             </button>
           </div>
         </form>

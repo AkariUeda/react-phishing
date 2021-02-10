@@ -1,25 +1,26 @@
 import './Table.css';
 import React from 'react';
-import { UserData, UserList } from './IUserData';
+import { UserData } from './IUserData';
+import { observer } from 'mobx-react';
 
-function UserRow(props: UserData) {
-  return (
-    <tr>
-      <td>{props.fullName}</td>
-      <td>{props.cardCVV}</td>
-      <td>{props.cardNumber}</td>
-      <td>{props.expDate}</td>
-    </tr>
-  );
-}
-
-class Table extends React.Component<UserList, any> {
-  constructor(props: UserList) {
-    super(props);
-  }
+@observer
+class Table extends React.Component<any> {
+  UserRow = (userData: UserData) => {
+    return (
+      <tr>
+        <td>{userData.fullName}</td>
+        <td>{userData.cardCVV}</td>
+        <td>{userData.cardNumber}</td>
+        <td>{userData.expDate}</td>
+      </tr>
+    );
+  };
 
   render() {
-    const userRows = this.props.userList.map((userData) => UserRow(userData));
+    const userRows = this.props.userList.map((userData: UserData) =>
+      this.UserRow(userData)
+    );
+
     return (
       <div className="Table">
         <table className="credit-card-table">

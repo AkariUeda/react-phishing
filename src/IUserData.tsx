@@ -5,8 +5,4 @@ interface UserData {
   expDate: string;
 }
 
-interface UserList {
-  userList: UserData[];
-}
-
-export type { UserData, UserList };
+export type { UserData };
