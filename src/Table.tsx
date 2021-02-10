@@ -2,9 +2,16 @@ import './Table.css';
 import React from 'react';
 import { UserData } from './IUserData';
 import { observer } from 'mobx-react';
+import { action } from 'mobx';
 
 @observer
 class Table extends React.Component<any> {
+  @action
+  handleUserDelete = (e: React.MouseEvent<HTMLElement>) => {
+    const cardToRemove = e.currentTarget.id;
+    this.props.store.removeUser(cardToRemove);
+  };
+
   UserRow = (userData: UserData) => {
     return (
       <tr>
@@ -12,12 +19,20 @@ class Table extends React.Component<any> {
         <td>{userData.cardCVV}</td>
         <td>{userData.cardNumber}</td>
         <td>{userData.expDate}</td>
+        <td>
+          <button
+            id={String(userData.cardNumber)}
+            onClick={this.handleUserDelete}
+          >
+            Delete
+          </button>
+        </td>
       </tr>
     );
   };
 
   render() {
-    const userRows = this.props.userList.map((userData: UserData) =>
+    const userRows = this.props.store.userList.map((userData: UserData) =>
       this.UserRow(userData)
     );
 
@@ -29,6 +44,7 @@ class Table extends React.Component<any> {
             <th>Card CVV</th>
             <th>Card Number</th>
             <th>Expiration Date</th>
+            <th>Actions</th>
           </tr>
           {userRows}
         </table>

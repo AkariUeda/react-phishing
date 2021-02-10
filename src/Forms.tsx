@@ -4,8 +4,6 @@ import { UserData } from './IUserData';
 import { action, computed, observable } from 'mobx';
 import { observer } from 'mobx-react';
 import { FormValidation } from './FormValidation';
-// Bonus: use validation on inputs
-// Use a @computed get to return a boolean, whether the form is valid (passes all validation checks)
 
 @observer
 class Forms extends React.Component<any, UserData> {
@@ -18,10 +16,7 @@ class Forms extends React.Component<any, UserData> {
 
   firstButtonClick = observable.box(false);
   private isFieldValid = (isValueValid: boolean) => {
-    if (!this.firstButtonClick.get() || isValueValid) {
-      return true;
-    }
-    return false;
+    return !this.firstButtonClick.get() || isValueValid;
   };
 
   @computed public get isNameValid(): boolean {
@@ -85,7 +80,12 @@ class Forms extends React.Component<any, UserData> {
   handleSubmit = () => {
     this.firstButtonClick.set(true);
     if (this.isValid) {
-      this.props.handleFormSubmit(this.user);
+      this.props.handleFormSubmit({
+        fullName: this.user.fullName,
+        cardCVV: this.user.cardCVV,
+        cardNumber: this.user.cardNumber,
+        expDate: this.user.expDate
+      });
     }
   };
 

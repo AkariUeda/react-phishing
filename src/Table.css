@@ -1,24 +1,39 @@
-.Table{
-    width: 100%;
+.Table {
+  width: 100%;
 }
 
-.credit-card-table{
-    border-collapse: collapse;
-    width: 100%;
+.credit-card-table {
+  border-collapse: collapse;
+  width: 100%;
 }
 
-td, th {
-    border: 1px solid #ddd;
-    padding: 8px;
+td,
+th {
+  border: 1px solid #ddd;
+  padding: 8px;
 }
-  
-tr:nth-child(even){background-color: #f2f2f2;}
-tr:hover {background-color: #ddd;}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+tr:hover {
+  background-color: #ddd;
+}
 
 th {
-    padding-top: 12px;
-    padding-bottom: 12px;
-    text-align: left;
-    background-color: #221f1f;
-    color: white;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #221f1f;
+  color: white;
+}
+
+button {
+  width: 60px;
+  border: none;
+  border-radius: 3px;
+  font-size: 13px;
+  color: #ffffff;
+  padding: 6px;
+  background-color: #494b4e;
 }
