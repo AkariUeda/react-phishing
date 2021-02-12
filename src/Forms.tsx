@@ -3,88 +3,24 @@ import React from 'react';
 import { UserData } from './IUserData';
 import { action, computed, observable } from 'mobx';
 import { observer } from 'mobx-react';
-import { FormValidation } from './FormValidation';
+import { FormStore } from './FormStore';
 
 @observer
 class Forms extends React.Component<any, UserData> {
-  user: UserData = observable({
-    fullName: '',
-    cardCVV: 0,
-    cardNumber: 0,
-    expDate: '06/20'
-  });
+  formStore = new FormStore();
 
-  firstButtonClick = observable.box(false);
   private isFieldValid = (isValueValid: boolean) => {
-    return !this.firstButtonClick.get() || isValueValid;
+    return !this.formStore.wasButtonClicked() || isValueValid;
   };
 
-  @computed public get isNameValid(): boolean {
-    return FormValidation.validName(this.user.fullName);
-  }
-
-  @computed public get isCvvValid(): boolean {
-    return FormValidation.validCvv(this.user.cardCVV);
-  }
-
-  @computed public get isCardNumberValid(): boolean {
-    return FormValidation.validCardNumber(this.user.cardNumber);
-  }
-
-  @computed public get isDateValid(): boolean {
-    return FormValidation.validDate(this.user.expDate);
-  }
-
-  @computed public get isValid(): boolean {
-    if (
-      FormValidation.validate(
-        this.user.fullName,
-        this.user.cardCVV,
-        this.user.cardNumber,
-        this.user.expDate
-      )
-    ) {
-      return true;
-    }
-    return false;
-  }
-
-  // Could also use computeds to validate input fields (outlined as red if invalid)
-  // Use computed value to apply CSS class to input
-
-  @action
-  handleNameChange = (e: React.FormEvent<HTMLInputElement>) => {
-    const value = e.currentTarget.value;
-    this.user.fullName = value;
-  };
-
-  @action
-  handleCVVChange = (e: React.FormEvent<HTMLInputElement>) => {
-    const value = parseInt(e.currentTarget.value);
-    this.user.cardCVV = value;
-  };
-
-  @action
-  handleCardNumberChange = (e: React.FormEvent<HTMLInputElement>) => {
-    const value = parseInt(e.currentTarget.value);
-    this.user.cardNumber = value;
-  };
-
-  @action
-  handleDateChange = (e: React.FormEvent<HTMLInputElement>) => {
-    const value = e.currentTarget.value;
-    this.user.expDate = value;
-  };
-
-  @action
   handleSubmit = () => {
-    this.firstButtonClick.set(true);
-    if (this.isValid) {
+    this.formStore.setButtonClicked();
+    if (this.formStore.isValid) {
       this.props.handleFormSubmit({
-        fullName: this.user.fullName,
-        cardCVV: this.user.cardCVV,
-        cardNumber: this.user.cardNumber,
-        expDate: this.user.expDate
+        fullName: this.formStore.user.fullName,
+        cardCVV: this.formStore.user.cardCVV,
+        cardNumber: this.formStore.user.cardNumber,
+        expDate: this.formStore.user.expDate
       });
     }
   };
@@ -99,11 +35,13 @@ class Forms extends React.Component<any, UserData> {
               <input
                 id="full-name"
                 className={
-                  this.isFieldValid(this.isNameValid) ? '' : 'invalid-field'
+                  this.isFieldValid(this.formStore.isNameValid)
+                    ? ''
+                    : 'invalid-field'
                 }
                 type="text"
                 name="fullName"
-                onChange={this.handleNameChange}
+                onChange={this.formStore.handleNameChange}
               />
             </label>
             <label>
@@ -111,12 +49,14 @@ class Forms extends React.Component<any, UserData> {
               <input
                 id="card-cvv"
                 className={
-                  this.isFieldValid(this.isCvvValid) ? '' : 'invalid-field'
+                  this.isFieldValid(this.formStore.isCvvValid)
+                    ? ''
+                    : 'invalid-field'
                 }
                 type="text"
                 name="cardCVV"
                 maxLength={3}
-                onChange={this.handleCVVChange}
+                onChange={this.formStore.handleCVVChange}
               />
             </label>
           </div>
@@ -126,14 +66,14 @@ class Forms extends React.Component<any, UserData> {
               <input
                 id="card-number"
                 className={
-                  this.isFieldValid(this.isCardNumberValid)
+                  this.isFieldValid(this.formStore.isCardNumberValid)
                     ? ''
                     : 'invalid-field'
                 }
                 type="text"
                 name="cardNumber"
                 maxLength={16}
-                onChange={this.handleCardNumberChange}
+                onChange={this.formStore.handleCardNumberChange}
               />
             </label>
           </div>
@@ -143,13 +83,15 @@ class Forms extends React.Component<any, UserData> {
               <input
                 id="card-expiration"
                 className={
-                  this.isFieldValid(this.isDateValid) ? '' : 'invalid-field'
+                  this.isFieldValid(this.formStore.isDateValid)
+                    ? ''
+                    : 'invalid-field'
                 }
                 type="text"
                 maxLength={5}
-                value={this.user.expDate}
+                value={this.formStore.user.expDate}
                 name="expDate"
-                onChange={this.handleDateChange}
+                onChange={this.formStore.handleDateChange}
               />
             </label>
           </div>

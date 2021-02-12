@@ -7,7 +7,8 @@ export class UserStore {
   constructor() {
     makeObservable(this, {
       userList: observable,
-      addUser: action
+      addUser: action,
+      removeUser: action
     });
 
     this.userList = [];
