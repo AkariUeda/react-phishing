@@ -9,7 +9,7 @@ export class FormValidation {
 
   public static validCvv = (cvv: number) => {
     const strCvv = String(cvv);
-    return FormValidation.numericField(strCvv) && strCvv.length == 3;
+    return FormValidation.numericField(strCvv);
   };
 
   public static validCardNumber = (cardNumber: number) => {

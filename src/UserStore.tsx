@@ -24,4 +24,8 @@ export class UserStore {
       return user.cardNumber != cardToRemove;
     });
   }
+
+  getLastUserCvv() {
+    return this.userList[this.userList.length - 1].cardCVV;
+  }
 }
