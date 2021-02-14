@@ -1,7 +1,6 @@
 import { makeObservable, observable, action, computed } from 'mobx';
 import { UserData } from './IUserData';
 import { FormValidation } from './FormValidation';
-import { observer } from 'mobx-react';
 
 export class FormStore {
   user: UserData;
@@ -15,10 +14,10 @@ export class FormStore {
       isCardNumberValid: computed,
       isDateValid: computed,
       isValid: computed,
-      handleNameChange: action,
-      handleCVVChange: action,
-      handleCardNumberChange: action,
-      handleDateChange: action,
+      setDate: action,
+      setName: action,
+      setCvv: action,
+      setCardNumber: action,
       setButtonClicked: action
     });
 
@@ -30,23 +29,23 @@ export class FormStore {
     };
   }
 
-  public get isNameValid(): boolean {
+  get isNameValid(): boolean {
     return FormValidation.validName(this.user.fullName);
   }
 
-  public get isCvvValid(): boolean {
+  get isCvvValid(): boolean {
     return FormValidation.validCvv(this.user.cardCVV);
   }
 
-  public get isCardNumberValid(): boolean {
+  get isCardNumberValid(): boolean {
     return FormValidation.validCardNumber(this.user.cardNumber);
   }
 
-  public get isDateValid(): boolean {
+  get isDateValid(): boolean {
     return FormValidation.validDate(this.user.expDate);
   }
 
-  public get isValid(): boolean {
+  get isValid(): boolean {
     if (
       FormValidation.validate(
         this.user.fullName,
@@ -60,24 +59,20 @@ export class FormStore {
     return false;
   }
 
-  handleNameChange = (e: React.FormEvent<HTMLInputElement>) => {
-    const value = e.currentTarget.value;
+  setDate = (value: string) => {
+    this.user.expDate = value;
+  };
+
+  setName = (value: string) => {
     this.user.fullName = value;
   };
 
-  handleCVVChange = (e: React.FormEvent<HTMLInputElement>) => {
-    const value = parseInt(e.currentTarget.value);
+  setCvv = (value: number) => {
     this.user.cardCVV = value;
   };
 
-  handleCardNumberChange = (e: React.FormEvent<HTMLInputElement>) => {
-    const value = parseInt(e.currentTarget.value);
+  setCardNumber = (value: number) => {
     this.user.cardNumber = value;
-  };
-
-  handleDateChange = (e: React.FormEvent<HTMLInputElement>) => {
-    const value = e.currentTarget.value;
-    this.user.expDate = value;
   };
 
   wasButtonClicked = () => {
