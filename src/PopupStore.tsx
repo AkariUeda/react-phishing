@@ -19,17 +19,18 @@ export class PopupStore {
     this.imgUrl = '';
   }
 
-  createPopup = (userCvv: number) => {
-    const pokemonInfo = getPokemonInfo(userCvv);
-    pokemonInfo
-      .then((info) => {
-        this.popUpMessage = `Wow! Did you know your CVV is ${info.name}'s ID?`;
-        this.imgUrl = info.sprites.front_default;
-        this.showPopUp = true;
-      })
-      .catch(() => {
-        this.showPopUp = false;
-      });
+  createPopup = async (userCvv: number) => {
+    let pokemonInfo;
+    try {
+      pokemonInfo = await getPokemonInfo(userCvv);
+    } catch (e) {
+      this.showPopUp = false;
+    }
+    if (pokemonInfo) {
+      this.popUpMessage = `Wow! Did you know your CVV is ${pokemonInfo.name}'s ID?`;
+      this.imgUrl = pokemonInfo.sprites.front_default;
+      this.showPopUp = true;
+    }
   };
 
   openPopup = () => {
