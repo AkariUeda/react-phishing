@@ -1,7 +1,7 @@
 import { makeObservable, observable, action } from 'mobx';
 import { UserData } from './IUserData';
 
-export class UserStore {
+export class TableStore {
   userList: UserData[];
 
   constructor() {
@@ -15,7 +15,6 @@ export class UserStore {
   }
 
   addUser(user: UserData) {
-    // Intermediate states will not become visible to observers.
     this.userList.push(user);
   }
 
@@ -23,9 +22,5 @@ export class UserStore {
     this.userList = this.userList.filter((user: UserData) => {
       return user.cardNumber != cardToRemove;
     });
-  }
-
-  getLastUserCvv() {
-    return this.userList[this.userList.length - 1].cardCVV;
   }
 }

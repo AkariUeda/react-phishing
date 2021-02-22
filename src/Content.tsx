@@ -4,19 +4,14 @@ import { Forms } from './Forms';
 import { Table } from './Table';
 import { UserData } from './IUserData';
 import { observer } from 'mobx-react';
-import { UserStore } from './UserStore';
-import { FormStore } from './FormStore';
+import { TableStore } from './TableStore';
 import { PopupStore } from './PopupStore';
 import { Popup } from './Popup';
 
-const userStore = new UserStore();
-const formStore = new FormStore();
+const userStore = new TableStore();
+const popupStore = new PopupStore();
 
-interface ContentProps {
-  popupStore: PopupStore;
-}
-
-export const Content = observer(({ popupStore }: ContentProps) => {
+export const Content = observer(() => {
   const handleFormSubmit = (userData: UserData) => {
     userStore.addUser(userData);
     popupStore.createPopup(userData.cardCVV);
@@ -26,7 +21,7 @@ export const Content = observer(({ popupStore }: ContentProps) => {
     <div className="Content">
       <h1>Subscribe</h1>
       {popupStore.showPopUp && <Popup store={popupStore} />}
-      <Forms formStore={formStore} handleFormSubmit={handleFormSubmit} />
+      <Forms handleFormSubmit={handleFormSubmit} />
       <h1>Users that have earned the free subscription</h1>
       <Table store={userStore} />
     </div>

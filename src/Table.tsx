@@ -2,10 +2,10 @@ import './Table.css';
 import React from 'react';
 import { UserData } from './IUserData';
 import { observer } from 'mobx-react';
-import { UserStore } from './UserStore';
+import { TableStore } from './TableStore';
 
 interface TableProps {
-  store: UserStore;
+  store: TableStore;
 }
 
 export const Table = observer(({ store }: TableProps) => {

@@ -5,11 +5,11 @@ import { observer } from 'mobx-react';
 import { FormStore } from './FormStore';
 
 interface FormsProps {
-  formStore: FormStore;
   handleFormSubmit: (userData: UserData) => void;
 }
+const formStore = new FormStore();
 
-export const Forms = observer(({ formStore, handleFormSubmit }: FormsProps) => {
+export const Forms = observer(({ handleFormSubmit }: FormsProps) => {
   const isFieldValid = (isValueValid: boolean) => {
     return !formStore.wasButtonClicked() || isValueValid;
   };
