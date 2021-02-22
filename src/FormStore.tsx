@@ -22,6 +22,7 @@ export class FormStore {
     });
 
     this.user = {
+      id: '',
       fullName: '',
       cardCVV: 0,
       cardNumber: 0,

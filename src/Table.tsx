@@ -11,7 +11,7 @@ interface TableProps {
 export const Table = observer(({ store }: TableProps) => {
   const handleUserDelete = (e: React.MouseEvent<HTMLElement>) => {
     const cardToRemove = e.currentTarget.id;
-    store.removeUser(parseInt(cardToRemove));
+    store.removeUser(cardToRemove);
   };
 
   const UserRow = (userData: UserData) => {
@@ -22,7 +22,7 @@ export const Table = observer(({ store }: TableProps) => {
         <td>{userData.cardNumber}</td>
         <td>{userData.expDate}</td>
         <td>
-          <button id={String(userData.cardNumber)} onClick={handleUserDelete}>
+          <button id={userData.id} onClick={handleUserDelete}>
             Delete
           </button>
         </td>

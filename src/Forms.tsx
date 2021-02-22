@@ -39,6 +39,7 @@ export const Forms = observer(({ handleFormSubmit }: FormsProps) => {
 
     if (formStore.isValid) {
       handleFormSubmit({
+        id: String(Date.now()),
         fullName: formStore.user.fullName,
         cardCVV: formStore.user.cardCVV,
         cardNumber: formStore.user.cardNumber,

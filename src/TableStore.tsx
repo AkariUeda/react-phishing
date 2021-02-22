@@ -18,9 +18,9 @@ export class TableStore {
     this.userList.push(user);
   }
 
-  removeUser(cardToRemove: number) {
+  removeUser(idToRemove: string) {
     this.userList = this.userList.filter((user: UserData) => {
-      return user.cardNumber != cardToRemove;
+      return user.id != idToRemove;
     });
   }
 }
