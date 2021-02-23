@@ -30,9 +30,9 @@ export const Table = observer(({ store }: TableProps) => {
     );
   };
 
-  const userRows = store.userList.map((userData: UserData) =>
-    UserRow(userData)
-  );
+  const userRows = store
+    .getUsers()
+    .map((userData: UserData) => UserRow(userData));
 
   return (
     <div className="Table">

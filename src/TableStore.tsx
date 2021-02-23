@@ -1,26 +1,31 @@
-import { makeObservable, observable, action } from 'mobx';
+import { makeObservable, observable, action, computed } from 'mobx';
 import { UserData } from './IUserData';
 
 export class TableStore {
-  userList: UserData[];
+  registeredUsers: UserData[];
 
   constructor() {
     makeObservable(this, {
-      userList: observable,
+      registeredUsers: observable,
       addUser: action,
-      removeUser: action
+      removeUser: action,
+      getUsers: computed
     });
 
-    this.userList = [];
+    this.registeredUsers = [];
   }
 
   addUser(user: UserData) {
-    this.userList.push(user);
+    this.registeredUsers.push(user);
   }
 
   removeUser(idToRemove: string) {
-    this.userList = this.userList.filter((user: UserData) => {
+    this.registeredUsers = this.registeredUsers.filter((user: UserData) => {
       return user.id != idToRemove;
     });
+  }
+
+  getUsers() {
+    return this.registeredUsers;
   }
 }

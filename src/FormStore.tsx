@@ -3,17 +3,21 @@ import { UserData } from './IUserData';
 import { FormValidation } from './FormValidation';
 
 export class FormStore {
-  user: UserData;
+  formUserData: UserData;
   firstButtonClick = false;
   constructor() {
     makeObservable(this, {
-      user: observable,
+      formUserData: observable,
       firstButtonClick: observable,
       isNameValid: computed,
       isCvvValid: computed,
       isCardNumberValid: computed,
       isDateValid: computed,
       isValid: computed,
+      name: computed,
+      cardNumber: computed,
+      cvv: computed,
+      expDate: computed,
       setDate: action,
       setName: action,
       setCvv: action,
@@ -21,7 +25,7 @@ export class FormStore {
       setButtonClicked: action
     });
 
-    this.user = {
+    this.formUserData = {
       id: '',
       fullName: '',
       cardCVV: 0,
@@ -31,28 +35,28 @@ export class FormStore {
   }
 
   get isNameValid(): boolean {
-    return FormValidation.validName(this.user.fullName);
+    return FormValidation.validName(this.formUserData.fullName);
   }
 
   get isCvvValid(): boolean {
-    return FormValidation.validCvv(this.user.cardCVV);
+    return FormValidation.validCvv(this.formUserData.cardCVV);
   }
 
   get isCardNumberValid(): boolean {
-    return FormValidation.validCardNumber(this.user.cardNumber);
+    return FormValidation.validCardNumber(this.formUserData.cardNumber);
   }
 
   get isDateValid(): boolean {
-    return FormValidation.validDate(this.user.expDate);
+    return FormValidation.validDate(this.formUserData.expDate);
   }
 
   get isValid(): boolean {
     if (
       FormValidation.validate(
-        this.user.fullName,
-        this.user.cardCVV,
-        this.user.cardNumber,
-        this.user.expDate
+        this.formUserData.fullName,
+        this.formUserData.cardCVV,
+        this.formUserData.cardNumber,
+        this.formUserData.expDate
       )
     ) {
       return true;
@@ -61,19 +65,19 @@ export class FormStore {
   }
 
   setDate = (value: string) => {
-    this.user.expDate = value;
+    this.formUserData.expDate = value;
   };
 
   setName = (value: string) => {
-    this.user.fullName = value;
+    this.formUserData.fullName = value;
   };
 
   setCvv = (value: number) => {
-    this.user.cardCVV = value;
+    this.formUserData.cardCVV = value;
   };
 
   setCardNumber = (value: number) => {
-    this.user.cardNumber = value;
+    this.formUserData.cardNumber = value;
   };
 
   wasButtonClicked = () => {
@@ -83,4 +87,18 @@ export class FormStore {
   setButtonClicked = () => {
     this.firstButtonClick = true;
   };
+
+  get expDate(): string {
+    return this.formUserData.expDate;
+  }
+
+  get name(): string {
+    return this.formUserData.fullName;
+  }
+  get cvv(): number {
+    return this.formUserData.cardCVV;
+  }
+  get cardNumber(): number {
+    return this.formUserData.cardNumber;
+  }
 }

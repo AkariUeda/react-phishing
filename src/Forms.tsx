@@ -40,10 +40,10 @@ export const Forms = observer(({ handleFormSubmit }: FormsProps) => {
     if (formStore.isValid) {
       handleFormSubmit({
         id: String(Date.now()),
-        fullName: formStore.user.fullName,
-        cardCVV: formStore.user.cardCVV,
-        cardNumber: formStore.user.cardNumber,
-        expDate: formStore.user.expDate
+        fullName: formStore.name,
+        cardCVV: formStore.cvv,
+        cardNumber: formStore.cardNumber,
+        expDate: formStore.expDate
       });
     }
   };
@@ -103,7 +103,7 @@ export const Forms = observer(({ handleFormSubmit }: FormsProps) => {
               }
               type="text"
               maxLength={5}
-              value={formStore.user.expDate}
+              value={formStore.expDate}
               name="expDate"
               onChange={handleDateChange}
             />
