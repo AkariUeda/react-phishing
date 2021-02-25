@@ -16,7 +16,7 @@ export const Table = observer(({ store }: TableProps) => {
 
   const UserRow = (userData: UserData) => {
     return (
-      <tr>
+      <tr key={userData.id}>
         <td>{userData.fullName}</td>
         <td>{userData.cardCVV}</td>
         <td>{userData.cardNumber}</td>
@@ -30,21 +30,21 @@ export const Table = observer(({ store }: TableProps) => {
     );
   };
 
-  const userRows = store
-    .getUsers()
-    .map((userData: UserData) => UserRow(userData));
+  const userRows = store.users.map((userData: UserData) => UserRow(userData));
 
   return (
     <div className="Table">
-      <table className="credit-card-table">
-        <tr>
-          <th>Full name</th>
-          <th>Card CVV</th>
-          <th>Card Number</th>
-          <th>Expiration Date</th>
-          <th>Actions</th>
-        </tr>
-        {userRows}
+      <table data-testid="table" className="credit-card-table">
+        <tbody>
+          <tr>
+            <th>Full name</th>
+            <th>Card CVV</th>
+            <th>Card Number</th>
+            <th>Expiration Date</th>
+            <th>Actions</th>
+          </tr>
+          {userRows}
+        </tbody>
       </table>
     </div>
   );

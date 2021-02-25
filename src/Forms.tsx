@@ -110,7 +110,12 @@ export const Forms = observer(({ handleFormSubmit }: FormsProps) => {
           </label>
         </div>
         <div className="form-row">
-          <button type="button" className="submitButton" onClick={handleSubmit}>
+          <button
+            role="submit-button"
+            type="button"
+            className="submitButton"
+            onClick={handleSubmit}
+          >
             Get free subscription!
           </button>
         </div>

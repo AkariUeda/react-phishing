@@ -9,7 +9,7 @@ export class TableStore {
       registeredUsers: observable,
       addUser: action,
       removeUser: action,
-      getUsers: computed
+      users: computed
     });
 
     this.registeredUsers = [];
@@ -25,7 +25,7 @@ export class TableStore {
     });
   }
 
-  getUsers() {
+  get users() {
     return this.registeredUsers;
   }
 }

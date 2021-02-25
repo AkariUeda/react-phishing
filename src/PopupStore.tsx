@@ -9,6 +9,8 @@ export class PopupStore {
   constructor() {
     makeObservable(this, {
       showPopUp: observable,
+      popUpMessage: observable,
+      imgUrl: observable,
       openPopup: action,
       closePopup: action,
       createPopup: action
@@ -24,12 +26,12 @@ export class PopupStore {
     try {
       pokemonInfo = await getPokemonInfo(userCvv);
     } catch (e) {
-      this.showPopUp = false;
+      this.closePopup();
     }
     if (pokemonInfo) {
       this.popUpMessage = `Wow! Did you know your CVV is ${pokemonInfo.name}'s ID?`;
       this.imgUrl = pokemonInfo.sprites.front_default;
-      this.showPopUp = true;
+      this.openPopup();
     }
   };
 
