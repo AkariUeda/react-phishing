@@ -68,6 +68,7 @@ test('The user fills all fields correctly, but WITHOUT matching a Pokemon ID', a
 
   await waitFor(() => {
     const table = getByRole('table');
+
     expect(table).toHaveTextContent(userInfo.fullName);
     expect(table).toHaveTextContent(String(userInfo.cardCVV));
     expect(table).toHaveTextContent(String(userInfo.cardNumber));
