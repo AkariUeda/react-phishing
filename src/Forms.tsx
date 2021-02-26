@@ -1,49 +1,53 @@
 import './Forms.css';
 import React from 'react';
 import { UserData } from './IUserData';
-import { observer } from 'mobx-react';
-import { FormStore } from './FormStore';
+import { observer } from 'mobx-react'; //mobx-react-lite use 'observer' from there
+import { useStore } from './store/viewContext';
+import { runInAction } from 'mobx';
 
 interface FormsProps {
   handleFormSubmit: (userData: UserData) => void;
 }
-const formStore = new FormStore();
 
 export const Forms = observer(({ handleFormSubmit }: FormsProps) => {
+  const store = useStore();
+  const formMutator = store.actions.formMutator;
+  const formSelector = store.viewSelectors.formSelector;
+
   const isFieldValid = (isValueValid: boolean) => {
-    return !formStore.wasButtonClicked() || isValueValid;
+    return !formSelector.wasButtonClicked || isValueValid;
   };
 
   const handleNameChange = (e: React.FormEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
-    formStore.setName(value);
+    formMutator.setName(value);
   };
 
   const handleCVVChange = (e: React.FormEvent<HTMLInputElement>) => {
     const value = parseInt(e.currentTarget.value);
-    formStore.setCvv(value);
+    formMutator.setCvv(value);
   };
 
   const handleCardNumberChange = (e: React.FormEvent<HTMLInputElement>) => {
     const value = parseInt(e.currentTarget.value);
-    formStore.setCardNumber(value);
+    formMutator.setCardNumber(value);
   };
 
   const handleDateChange = (e: React.FormEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
-    formStore.setDate(value);
+    formMutator.setDate(value);
   };
 
   const handleSubmit = () => {
-    formStore.setButtonClicked();
+    formMutator.setButtonClicked();
 
-    if (formStore.isValid) {
+    if (formSelector.isValid) {
       handleFormSubmit({
         id: String(Date.now()),
-        fullName: formStore.name,
-        cardCVV: formStore.cvv,
-        cardNumber: formStore.cardNumber,
-        expDate: formStore.expDate
+        fullName: formSelector.name,
+        cardCVV: formSelector.cvv,
+        cardNumber: formSelector.cardNumber,
+        expDate: formSelector.expDate
       });
     }
   };
@@ -57,7 +61,7 @@ export const Forms = observer(({ handleFormSubmit }: FormsProps) => {
             <input
               id="full-name"
               className={
-                isFieldValid(formStore.isNameValid) ? '' : 'invalid-field'
+                isFieldValid(formSelector.isNameValid) ? '' : 'invalid-field'
               }
               type="text"
               name="fullName"
@@ -69,7 +73,7 @@ export const Forms = observer(({ handleFormSubmit }: FormsProps) => {
             <input
               id="card-cvv"
               className={
-                isFieldValid(formStore.isCvvValid) ? '' : 'invalid-field'
+                isFieldValid(formSelector.isCvvValid) ? '' : 'invalid-field'
               }
               type="text"
               name="cardCVV"
@@ -84,7 +88,9 @@ export const Forms = observer(({ handleFormSubmit }: FormsProps) => {
             <input
               id="card-number"
               className={
-                isFieldValid(formStore.isCardNumberValid) ? '' : 'invalid-field'
+                isFieldValid(formSelector.isCardNumberValid)
+                  ? ''
+                  : 'invalid-field'
               }
               type="text"
               name="cardNumber"
@@ -99,11 +105,11 @@ export const Forms = observer(({ handleFormSubmit }: FormsProps) => {
             <input
               id="card-expiration"
               className={
-                isFieldValid(formStore.isDateValid) ? '' : 'invalid-field'
+                isFieldValid(formSelector.isDateValid) ? '' : 'invalid-field'
               }
               type="text"
               maxLength={5}
-              value={formStore.expDate}
+              value={formSelector.expDate}
               name="expDate"
               onChange={handleDateChange}
             />

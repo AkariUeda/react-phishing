@@ -80,12 +80,12 @@ export class FormStore {
     this.formUserData.cardNumber = value;
   };
 
-  wasButtonClicked = () => {
-    return this.firstButtonClick;
-  };
-
+  
   setButtonClicked = () => {
     this.firstButtonClick = true;
+  };
+  wasButtonClicked = () => {
+    return this.firstButtonClick;
   };
 
   get expDate(): string {
