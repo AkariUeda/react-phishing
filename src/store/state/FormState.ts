@@ -1,4 +1,4 @@
-import { observable } from 'mobx';
+import { makeObservable, observable } from 'mobx';
 import { UserData } from '../../IUserData';
 
 export class FormState {
@@ -10,4 +10,8 @@ export class FormState {
     expDate: '06/20'
   };
   @observable public firstButtonClick: boolean = false;
+
+  public constructor() {
+    makeObservable(this);
+  }
 }

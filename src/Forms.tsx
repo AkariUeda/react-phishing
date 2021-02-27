@@ -3,7 +3,6 @@ import React from 'react';
 import { UserData } from './IUserData';
 import { observer } from 'mobx-react'; //mobx-react-lite use 'observer' from there
 import { useStore } from './store/viewContext';
-import { runInAction } from 'mobx';
 
 interface FormsProps {
   handleFormSubmit: (userData: UserData) => void;

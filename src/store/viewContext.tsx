@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLocalObservable, useLocalStore } from 'mobx-react'; // 6.x or mobx-react-lite@1.4.0
+import { useLocalStore } from 'mobx-react';
 import { LandingPageViewStore, createStore } from './LandingPageViewStore';
 
 type ContextProps = {
@@ -13,7 +13,7 @@ const viewContext = React.createContext<LandingPageViewStore | undefined>(
 viewContext.displayName = 'viewContext';
 
 export const StoreProvider = ({ children }: ContextProps) => {
-  const viewStore = useLocalObservable(createStore);
+  const viewStore = useLocalStore(createStore);
   return (
     <viewContext.Provider value={viewStore}>{children}</viewContext.Provider>
   );

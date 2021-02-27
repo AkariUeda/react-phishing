@@ -28,4 +28,9 @@ export class FormMutator extends StoreExtension<FormState> {
   public setButtonClicked = () => {
     this.state.firstButtonClick = true;
   };
+
+  public constructor(state: FormState) {
+    super(state);
+    makeObservable(this);
+  }
 }

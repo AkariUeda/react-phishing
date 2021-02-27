@@ -65,4 +65,9 @@ export class FormSelector extends StoreExtension<FormState> {
   public get expDate(): string {
     return this.state.formUserData.expDate;
   }
+
+  public constructor(state: FormState) {
+    super(state);
+    makeObservable(this);
+  }
 }
