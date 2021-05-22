@@ -1,5 +1,4 @@
 import { computed, makeObservable } from 'mobx';
-import { FormStore } from '../../FormStore';
 import { FormValidation } from '../../FormValidation';
 import { StoreExtension } from '../../GenericStore/StoreExtension';
 import { FormState } from '../state/FormState';
@@ -7,7 +6,6 @@ import { FormState } from '../state/FormState';
 export class FormSelector extends StoreExtension<FormState> {
   @computed
   public get isNameValid(): boolean {
-    console.log(this.state.formUserData.fullName);
     return FormValidation.validName(this.state.formUserData.fullName);
   }
 

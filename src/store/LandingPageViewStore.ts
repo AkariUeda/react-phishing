@@ -1,4 +1,3 @@
-import { observable } from 'mobx';
 import { Store } from '../GenericStore/Store';
 import { LandingPageViewActions } from './LandingPageViewActions';
 import { LandingPageViewSelectors } from './LandingPageViewSelectors';

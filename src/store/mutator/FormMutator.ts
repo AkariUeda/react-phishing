@@ -11,7 +11,6 @@ export class FormMutator extends StoreExtension<FormState> {
   @action
   public setName = (value: string) => {
     this.state.formUserData.fullName = value;
-    console.log(this.state.formUserData.fullName);
   };
 
   @action

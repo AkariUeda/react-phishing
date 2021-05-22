@@ -5,22 +5,25 @@ import { Table } from './Table';
 import { UserData } from './IUserData';
 import { observer } from 'mobx-react';
 import { TableStore } from './TableStore';
-import { PopupStore } from './PopupStore';
 import { Popup } from './Popup';
+import { useStore } from './store/viewContext';
 
 const userStore = new TableStore();
-const popupStore = new PopupStore();
 
 export const Content = observer(() => {
+  const store = useStore();
+  const popUpSelector = store.viewSelectors.popUpSelector;
+  const popUpMutator = store.actions.popUpMutator;
+
   const handleFormSubmit = (userData: UserData) => {
     userStore.addUser(userData);
-    popupStore.createPopup(userData.cardCVV);
+    popUpMutator.createPopup(userData.cardCVV);
   };
 
   return (
     <div className="Content">
       <h1>Subscribe</h1>
-      {popupStore.showPopUp && <Popup store={popupStore} />}
+      {popUpSelector.showPopUp && <Popup />}
       <Forms handleFormSubmit={handleFormSubmit} />
       <h1>Users that have earned the free subscription</h1>
       <Table store={userStore} />

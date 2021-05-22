@@ -1,17 +1,28 @@
 import './Popup.css';
 import { observer } from 'mobx-react';
-import { PopupStore } from './PopupStore';
+import { useStore } from './store/viewContext';
 
-interface PopupProps {
-  store: PopupStore;
-}
-
-export const Popup = observer(({ store }: PopupProps) => {
+export const Popup = observer(() => {
+  const store = useStore();
+  const popUpSelector = store.viewSelectors.popUpSelector;
+  const popUpMutator = store.actions.popUpMutator;
+  let t: 'a' | 'b' | 'c' = 'a';
+  if (t) {
+    console.log('A');
+  } else {
+    console.log('FALSE A');
+  }
+  t = 'b';
+  if (t) {
+    console.log('b');
+  } else {
+    console.log('FbLSE b');
+  }
   return (
     <div className="Popup" role="popup">
-      <span className="popup-text">{store.popUpMessage}</span>
-      <img src={store.imgUrl} className="img" />
-      <button onClick={store.closePopup}>Close</button>
+      <span className="popup-text">{popUpSelector.popUpMessage}</span>
+      <img src={popUpSelector.imgUrl} className="img" />
+      <button onClick={popUpMutator.closePopup}>Close</button>
     </div>
   );
 });
